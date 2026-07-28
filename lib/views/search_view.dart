@@ -12,10 +12,10 @@ class SearchView extends StatelessWidget {
       appBar: AppBar(
         title: Text('Search a City '),
         backgroundColor:
-            BlocProvider.of<GetWeatherCubit>(context).weatherModel == null
+            BlocProvider.of<WeatherCubit>(context).weatherModel == null
             ? Colors.amber
             : getThemeColor(
-                BlocProvider.of<GetWeatherCubit>(
+                BlocProvider.of<WeatherCubit>(
                   context,
                 ).weatherModel?.weatherCondition,
               ),
@@ -25,10 +25,10 @@ class SearchView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: TextField(
             onSubmitted: (value) async {
-              var getWeatherCubit = BlocProvider.of<GetWeatherCubit>(context);
-              getWeatherCubit.getWeather(cityName: value);
+              BlocProvider.of<WeatherCubit>(context).getWeather(cityName: value);
+          
               Navigator.pop(context);
-              // log(weatherModel.cityName);
+             
             },
             autofocus: true,
             // textInputAction: TextInputAction.search,

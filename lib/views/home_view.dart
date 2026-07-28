@@ -15,10 +15,10 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor:
-            BlocProvider.of<GetWeatherCubit>(context).weatherModel == null
+            BlocProvider.of<WeatherCubit>(context).weatherModel == null
             ? Colors.amber
             : getThemeColor(
-                BlocProvider.of<GetWeatherCubit>(
+                BlocProvider.of<WeatherCubit>(
                   context,
                 ).weatherModel?.weatherCondition,
               ),
@@ -40,14 +40,17 @@ class HomeView extends StatelessWidget {
           ),
         ],
       ),
-      body: BlocBuilder<GetWeatherCubit, WeatherState>(
+      body: BlocBuilder<WeatherCubit, WeatherState>(
         builder: (context, state) {
-          if (state is InitialState) {
-            return NoWeatherBody();
-          } else if (state is WeatherLoadedState) {
+          if (state is WeatherLoadedState) {
+            return Center(child: CircularProgressIndicator());
+          } else if (state is WeatherSuccessState) {
             return WetherInfoBody(weatherModel: state.weatherModel);
-          } else {
+          } else if (state is WeatherFailureState){
             return Text('opps there was an error ');
+          }else {
+            return
+            NoWeatherBody();
           }
         },
       ),
